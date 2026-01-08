@@ -5,9 +5,10 @@ import VideoDownloader from './components/VideoDownloader'
 import DownloadQueue from './components/DownloadQueue'
 import DownloadHistory from './components/DownloadHistory'
 import { Download as DownloadIcon, History, LogOut } from 'lucide-react'
+import type { Session, AuthChangeEvent } from '@supabase/supabase-js'
 
 export default function App() {
-  const [session, setSession] = useState<any>(null)
+  const [session, setSession] = useState<Session | null>(null)
   const [activeTab, setActiveTab] = useState<'download' | 'history'>('download')
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function App() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       setSession(session)
     })
 
